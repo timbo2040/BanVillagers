@@ -1,0 +1,13 @@
+name: BanVillagers
+version: '${project.version}'
+main: com.tiptow.Main
+api-version: '1.20'
+commands:
+  allowvillagers:
+    description: Allow villagers
+    permission: villager.allow
+    usage: "Usage: /<command>"
+  banvillagers:
+    description: Ban villagers
+    permission: villager.ban
+    usage: "Usage: /<command>"

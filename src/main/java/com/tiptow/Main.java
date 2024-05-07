@@ -1,10 +1,13 @@
 package com.tiptow;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin implements Listener {
@@ -20,12 +23,14 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        // Check if the clicked inventory is a villager trading inventory
-        if (event.getInventory().getHolder() instanceof Villager) {
-            // Cancel the trading action
-            event.setCancelled(true);
-            event.getWhoClicked().sendMessage(ChatColor.RED + "Trading with villagers is blocked.");
-        }
+    public void onClick(InventoryOpenEvent event) {
+        Player player = (Player)event.getPlayer();
+        if (event.getInventory().getType().equals(InventoryType.MERCHANT))
+            if (!player.hasPermission("antivillager.override")) {
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "You are not allowed to trade with villagers.");
+            } else {
+                return;
+            }
     }
 }
